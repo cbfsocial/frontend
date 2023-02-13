@@ -1,23 +1,38 @@
 import { useMemo, useState, useEffect } from "react"
 import data from "../../data/data.json"
 import Link from "next/link";
-import Plus from "@/components/icons/Plus";
+import Plus from "@/components/icons/PlusIcon";
 import AddExerciseBar from "@/components/AddExerciseBar";
 import { useLocalStorage } from "usehooks-ts";
+import { v4 as uuid } from "uuid"
+
 
 export default function All() {
 
     const [searchInput, setSearchInput] = useState("")
     const [currentTraining, setCurrentTraining] = useLocalStorage("currentTraining", [])
 
-    useEffect(() => {
-        console.log(currentTraining)
-    }, [currentTraining])
+    // useEffect(() => {
+    //     console.log(currentTraining)
+    // }, [currentTraining])
 
-
-    function handleAdding(event, exercise) {
+    // TODO: dont allow to add already added elems
+    const handleAdding = (event, exercise) => {
         event.preventDefault()
-        setCurrentTraining(prev => [...prev, exercise])
+
+        setCurrentTraining(prev => [
+            ...prev,
+            ...(prev.find(el => el.id === exercise.id) ?
+                [] :
+                [{
+                    ...exercise,
+                    finished: [{
+                        id: uuid(),
+                        reps: 0,
+                        weight: 0
+                    }]
+                }])
+        ])
     }
 
     const list = useMemo(() =>
@@ -44,7 +59,7 @@ export default function All() {
                         v.map(el => (
                             <Link href={`allExersises/${el.id}`} key={el.id}>
                                 <span className="text-white border-2 p-2 text-m w-48 h-24 mt-4 mb-4 flex justify-center items-center hover:bg-beer overflow-hidden relative" key={el.id}>{el.name}
-                                    <Plus className="bg-white w-6 h-6 absolute top-0 right-0" onClick={(event) => handleAdding(event, el)} />
+                                    <Plus className="w-6 h-6 absolute top-0 right-0" strokeWidth={1} stroke="currentColor" onClick={(event) => handleAdding(event, el)} />
                                 </span>
                             </Link>
                         ))
@@ -59,7 +74,7 @@ export default function All() {
             <input className="ml-4" placeholder="Search" />
             {memoizedList}
 
-            <AddExerciseBar handleAddingBar={handleAdding} />
+            <AddExerciseBar />
         </div>
 
     )

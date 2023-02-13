@@ -15,6 +15,7 @@
     "classnames": "^2.3.2",
     "flowbite": "^1.6.3",
     "flowbite-react": "^0.3.8",
+    "formik": "^2.2.9",
     "next": "13.1.6",
     "ramda": "^0.28.0",
     "react": "18.2.0",
@@ -22,6 +23,7 @@
     "react-table": "^7.8.0",
     "usehooks-ts": "^2.9.1",
     "uuid": "^9.0.0",
+    "zod": "^3.20.6",
     "zod-formik-adapter": "^1.2.0"
   },
   "devDependencies": {
