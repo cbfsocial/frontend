@@ -5,7 +5,7 @@ import { use, useState } from 'react'
 import ArrowDown from './icons/ArrowDown'
 import RepsAndWeights from './RepsAndWeights'
 
-export default function AddExerciseBar() {
+export default function AddExerciseBar({ barState, hideBar }) {
   const [currentTraining, setCurrentTraining] = useLocalStorage(
     'currentTraining',
     [],
@@ -16,7 +16,6 @@ export default function AddExerciseBar() {
     [],
   )
   const [isHide, setIsHide] = useState(true)
-  const [isValidated, setIsValidated] = useState(true)
   const regex = /^[1-9]\d*$/g
 
   function handleAdding(el) {
@@ -30,7 +29,6 @@ export default function AddExerciseBar() {
       })),
     )
   }
-  // TODO: input validation
   function handleSubmit() {
     setFinishedTrainings((prev) => [
       ...prev,
@@ -41,14 +39,14 @@ export default function AddExerciseBar() {
 
   return currentTraining.length ? (
     <div>
-      {isHide ? (
+      {!barState ? (
         <div className="fixed bottom-0 h-5/6 w-screen bg-beer overflow-y-scroll overflow-x-hidden ">
           <div className="flex flex-col gap-y-10 justify-around mx-2 items-stretch ">
             <ArrowDown
               strokeWidth={1}
               className="w-8 h-8 right-2 absolute top-2 cursor-pointer"
               stroke="currentColor"
-              onClick={() => setIsHide((prev) => !prev)}
+              onClick={() => hideBar(true)}
             />
             {currentTraining?.map((el) => (
               <div className="p-4" key={el.id}>
@@ -74,7 +72,6 @@ export default function AddExerciseBar() {
               </div>
             ))}
             <div className="flex justify-center gap-4 mr-auto ml-auto mt-10 mb-6">
-              {isValidated ? null : <p>Please fill the reps and weights</p>}
               <button
                 className="text-2xl border-2 rounded-lg p-4"
                 onClick={() => handleSubmit()}
@@ -93,7 +90,7 @@ export default function AddExerciseBar() {
       ) : (
         <div
           className="bg-beer fixed bottom-0 w-full flex justify-between cursor-pointer flex-col"
-          onClick={() => setIsHide((prev) => !prev)}
+          onClick={() => hideBar(false)}
         >
           <div>
             <div className="text-xs">{currentTraining.at(-1).muscle}</div>

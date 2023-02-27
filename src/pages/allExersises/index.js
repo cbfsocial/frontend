@@ -8,6 +8,7 @@ import { v4 as uuid } from 'uuid'
 
 export default function All() {
   const [searchInput, setSearchInput] = useState('')
+  const [hideBar, setHideBar] = useState(true)
   const [currentTraining, setCurrentTraining] = useLocalStorage(
     'currentTraining',
     [],
@@ -15,7 +16,7 @@ export default function All() {
 
   const handleAdding = (event, exercise) => {
     event.preventDefault()
-
+    setHideBar(false)
     setCurrentTraining((prev) => [
       ...prev,
       ...(prev.find((el) => el.id === exercise.id)
@@ -86,7 +87,7 @@ export default function All() {
       />
       {memoizedList}
 
-      <AddExerciseBar />
+      <AddExerciseBar barState={hideBar} hideBar={setHideBar} />
     </div>
   )
 }
