@@ -40,7 +40,7 @@ export default function AddExerciseBar({ barState, hideBar }) {
   return currentTraining.length ? (
     <div>
       {!barState ? (
-        <div className="fixed bottom-0 h-5/6 w-screen bg-beer overflow-y-scroll overflow-x-hidden ">
+        <div className="sticky bottom-0 h-5/6 w-screen bg-beer overflow-y-scroll overflow-x-hidden">
           <div className="flex flex-col gap-y-10 justify-around mx-2 items-stretch ">
             <ArrowDown
               strokeWidth={1}

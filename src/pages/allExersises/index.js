@@ -79,7 +79,7 @@ export default function All() {
   }, [list])
 
   return (
-    <div className="mt-10 text-gray-800">
+    <div className="mt-10 text-gray-800 pb-24">
       <input
         className="ml-4"
         placeholder="Search"
